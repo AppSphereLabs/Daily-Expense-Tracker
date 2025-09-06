@@ -150,6 +150,11 @@
             color: white;
         }
 
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
         .expense-item {
             background: #f8f9fa;
             padding: 15px;
@@ -341,6 +346,7 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 14px;
         }
 
         .auth-tab.active {
@@ -354,6 +360,21 @@
 
         .auth-tab:last-child {
             border-radius: 0 8px 8px 0;
+        }
+
+        .cloud-status {
+            background: rgba(40, 167, 69, 0.1);
+            color: #155724;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .cloud-status.offline {
+            background: rgba(220, 53, 69, 0.1);
+            color: #721c24;
         }
 
         @media (max-width: 768px) {
@@ -373,6 +394,23 @@
                 max-width: 250px;
                 right: 10px;
             }
+
+            .auth-tabs {
+                flex-direction: column;
+            }
+
+            .auth-tab {
+                border-radius: 0 !important;
+                margin-bottom: 2px;
+            }
+
+            .auth-tab:first-child {
+                border-radius: 8px 8px 0 0 !important;
+            }
+
+            .auth-tab:last-child {
+                border-radius: 0 0 8px 8px !important;
+            }
         }
     </style>
 </head>
@@ -383,6 +421,10 @@
             <p>Track your expenses, manage your budget, achieve your goals</p>
         </div>
 
+        <div id="cloud-status" class="cloud-status">
+            ☁️ Connected to Google Sheets - Your data is safely stored in the cloud!
+        </div>
+
         <!-- Authentication Section -->
         <div id="auth-section" class="auth-section">
             <h2>Welcome! Please sign in to continue</h2>
@@ -391,6 +433,7 @@
             <div class="auth-tabs">
                 <button class="auth-tab active" data-tab="signin">Sign In</button>
                 <button class="auth-tab" data-tab="signup">Sign Up</button>
+                <button class="auth-tab" data-tab="recover">Recover Account</button>
             </div>
 
             <!-- Sign In Form -->
@@ -415,7 +458,32 @@
                 <div class="form-group">
                     <input type="password" id="signup-confirm" class="form-control" placeholder="Confirm password" required>
                 </div>
+                <div class="form-group">
+                    <select id="security-question" class="form-control" required>
+                        <option value="">Select Security Question</option>
+                        <option value="pet">What was the name of your first pet?</option>
+                        <option value="school">What was the name of your elementary school?</option>
+                        <option value="city">In what city were you born?</option>
+                        <option value="mother">What is your mother's maiden name?</option>
+                        <option value="friend">What was the name of your first best friend?</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="security-answer" class="form-control" placeholder="Security answer" required>
+                </div>
                 <button class="btn btn-success" id="signup-btn">Create Account</button>
+            </div>
+
+            <!-- Recover Password Form -->
+            <div id="recover-form" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <input type="email" id="recover-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="recover-answer" class="form-control" placeholder="Answer to your security question" required>
+                </div>
+                <button class="btn btn-warning" id="recover-btn">Recover Password</button>
+                <div id="recovered-password" style="display: none; margin-top: 15px; padding: 15px; background: #d4edda; border-radius: 8px; color: #155724;"></div>
             </div>
 
             <div id="auth-status" class="loading" style="display: none;">
@@ -470,7 +538,7 @@
                 <div id="recent-expenses">
                     <div class="loading">
                         <div class="spinner"></div>
-                        <div>Loading your expenses...</div>
+                        <div>Loading your expenses from cloud...</div>
                     </div>
                 </div>
             </div>
@@ -506,7 +574,7 @@
                             <option value="bank">Bank Transfer</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="add-expense-btn">Add Expense</button>
+                    <button type="submit" class="btn btn-primary" id="add-expense-btn">Add to Cloud</button>
                 </form>
             </div>
 
@@ -514,7 +582,9 @@
             <div id="reports" class="tab-content">
                 <h2>Expense Reports</h2>
                 <div class="chart-container">
-                    <canvas id="expense-chart"></canvas>
+                    <div style="text-align: center; padding: 50px; color: #666;" id="chart-placeholder">
+                        📊 Visual charts will appear here when you add expenses
+                    </div>
                 </div>
                 <div id="category-breakdown"></div>
                 <button class="btn btn-success" id="export-btn">Export to CSV</button>
@@ -527,7 +597,7 @@
                     <label for="monthly-budget">Monthly Budget (₹)</label>
                     <input type="number" id="monthly-budget" class="form-control" step="0.01" placeholder="Enter your monthly budget">
                 </div>
-                <button class="btn btn-primary" id="update-budget-btn">Update Budget</button>
+                <button class="btn btn-primary" id="update-budget-btn">Save to Cloud</button>
                 
                 <h3>Budget Progress</h3>
                 <div class="summary-card">
@@ -546,7 +616,7 @@
                     <label for="new-category">New Category Name</label>
                     <input type="text" id="new-category" class="form-control" placeholder="Enter category name">
                 </div>
-                <button class="btn btn-primary" id="add-category-btn">Add Category</button>
+                <button class="btn btn-primary" id="add-category-btn">Save to Cloud</button>
                 
                 <h3>Your Categories</h3>
                 <div class="category-grid" id="category-list"></div>
@@ -557,38 +627,17 @@
     <!-- Notification -->
     <div id="notification" class="notification"></div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
-    <!-- Chart.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDFYE6vfDtf1HPvAARXhjtxZewT8jqEFvI",
-  authDomain: "daily-expense-tracker-4ce8c.firebaseapp.com",
-  projectId: "daily-expense-tracker-4ce8c",
-  storageBucket: "daily-expense-tracker-4ce8c.firebasestorage.app",
-  messagingSenderId: "63197593492",
-  appId: "1:63197593492:web:6ae891a48c69e4becb1981",
-  measurementId: "G-J0V62XYPT5"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
+        // ⚠️ REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+        
         // Global variables
         let currentUser = null;
         let expenses = [];
         let categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Bills & Utilities', 'Healthcare', 'Education', 'Travel', 'Groceries', 'Personal Care'];
         let monthlyBudget = 10000;
 
-        console.log('🔥 Firebase initialized successfully!');
+        console.log('💰 Expense Tracker with Google Sheets Database initialized!');
 
         // Utility functions
         function showNotification(message, type = 'success') {
@@ -613,6 +662,28 @@
         function setButtonsEnabled(enabled) {
             document.getElementById('signin-btn').disabled = !enabled;
             document.getElementById('signup-btn').disabled = !enabled;
+            document.getElementById('recover-btn').disabled = !enabled;
+        }
+
+        // Google Sheets API functions
+        async function callGoogleScript(data) {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Google Script call failed:', error);
+                document.getElementById('cloud-status').className = 'cloud-status offline';
+                document.getElementById('cloud-status').textContent = '⚠️ Offline mode - Please check your connection';
+                throw new Error('Failed to connect to Google Sheets');
+            }
         }
 
         // Auth tab switching
@@ -627,6 +698,7 @@
                 // Show corresponding form
                 document.getElementById('signin-form').style.display = tabName === 'signin' ? 'block' : 'none';
                 document.getElementById('signup-form').style.display = tabName === 'signup' ? 'block' : 'none';
+                document.getElementById('recover-form').style.display = tabName === 'recover' ? 'block' : 'none';
             });
         });
 
@@ -644,26 +716,27 @@
                 showAuthLoading('Signing in...');
                 setButtonsEnabled(false);
 
-                await auth.signInWithEmailAndPassword(email, password);
-                
-                hideAuthLoading();
-                showNotification('Signed in successfully!', 'success');
-                
-            } catch (error) {
-                hideAuthLoading();
-                setButtonsEnabled(true);
-                console.error('Sign in error:', error);
-                
-                let errorMessage = 'Sign in failed';
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email address';
+                const result = await callGoogleScript({
+                    action: 'signin',
+                    email: email,
+                    password: password
+                });
+
+                if (result.success) {
+                    currentUser = { id: result.userId, email: result.email };
+                    await loadUserData();
+                    showUserInterface();
+                    showNotification('Signed in successfully!', 'success');
+                } else {
+                    showNotification(result.error || 'Sign in failed', 'danger');
                 }
                 
-                showNotification(errorMessage, 'danger');
+            } catch (error) {
+                console.error('Sign in error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                hideAuthLoading();
+                setButtonsEnabled(true);
             }
         }
 
@@ -671,8 +744,10 @@
             const email = document.getElementById('signup-email').value.trim();
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm').value;
+            const securityQuestion = document.getElementById('security-question').value;
+            const securityAnswer = document.getElementById('security-answer').value.trim();
 
-            if (!email || !password || !confirmPassword) {
+            if (!email || !password || !confirmPassword || !securityQuestion || !securityAnswer) {
                 showNotification('Please fill all fields', 'danger');
                 return;
             }
@@ -687,46 +762,181 @@
                 return;
             }
 
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showNotification('Please enter a valid email address', 'danger');
+                return;
+            }
+
             try {
                 showAuthLoading('Creating account...');
                 setButtonsEnabled(false);
 
-                await auth.createUserWithEmailAndPassword(email, password);
-                
-                hideAuthLoading();
-                showNotification('Account created successfully!', 'success');
-                
-            } catch (error) {
-                hideAuthLoading();
-                setButtonsEnabled(true);
-                console.error('Sign up error:', error);
-                
-                let errorMessage = 'Account creation failed';
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'An account with this email already exists';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email address';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'Password is too weak';
+                const result = await callGoogleScript({
+                    action: 'signup',
+                    email: email,
+                    password: password,
+                    securityQuestion: securityQuestion,
+                    securityAnswer: securityAnswer
+                });
+
+                if (result.success) {
+                    currentUser = { id: result.userId, email: result.email };
+                    await loadUserData();
+                    showUserInterface();
+                    showNotification('Account created successfully!', 'success');
+                } else {
+                    showNotification(result.error || 'Account creation failed', 'danger');
                 }
                 
-                showNotification(errorMessage, 'danger');
+            } catch (error) {
+                console.error('Sign up error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                hideAuthLoading();
+                setButtonsEnabled(true);
             }
         }
 
-        async function handleSignOut() {
+        async function handleRecover() {
+            const email = document.getElementById('recover-email').value.trim();
+            const securityAnswer = document.getElementById('recover-answer').value.trim();
+
+            if (!email || !securityAnswer) {
+                showNotification('Please fill all fields', 'danger');
+                return;
+            }
+
             try {
-                await auth.signOut();
-                showNotification('Signed out successfully!', 'success');
+                showAuthLoading('Recovering account...');
+                setButtonsEnabled(false);
+
+                const result = await callGoogleScript({
+                    action: 'recover',
+                    email: email,
+                    securityAnswer: securityAnswer
+                });
+
+                if (result.success) {
+                    document.getElementById('recovered-password').style.display = 'block';
+                    document.getElementById('recovered-password').innerHTML = `
+                        <strong>Password Recovery Successful!</strong><br>
+                        Your password is: <strong>${result.password}</strong><br>
+                        <small>Please save this password and use it to sign in.</small>
+                    `;
+                    showNotification('Password recovered successfully!', 'success');
+                } else {
+                    showNotification(result.error || 'Recovery failed. Please check your email and security answer.', 'danger');
+                }
+                
             } catch (error) {
-                console.error('Sign out error:', error);
-                showNotification('Error signing out', 'danger');
+                console.error('Recovery error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                hideAuthLoading();
+                setButtonsEnabled(true);
+            }
+        }
+
+        function handleSignOut() {
+            currentUser = null;
+            expenses = [];
+            categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Bills & Utilities', 'Healthcare', 'Education', 'Travel', 'Groceries', 'Personal Care'];
+            monthlyBudget = 10000;
+            showAuthInterface();
+            showNotification('Signed out successfully!', 'success');
+        }
+
+        function showUserInterface() {
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            document.getElementById('user-email').textContent = currentUser.email;
+            
+            populateCategories();
+            populateCategoryList();
+            updateDashboard();
+        }
+
+        function showAuthInterface() {
+            document.getElementById('auth-section').style.display = 'block';
+            document.getElementById('main-app').style.display = 'none';
+            
+            // Reset forms
+            setButtonsEnabled(true);
+            hideAuthLoading();
+            clearAuthForms();
+        }
+
+        function clearAuthForms() {
+            document.getElementById('signin-email').value = '';
+            document.getElementById('signin-password').value = '';
+            document.getElementById('signup-email').value = '';
+            document.getElementById('signup-password').value = '';
+            document.getElementById('signup-confirm').value = '';
+            document.getElementById('security-question').value = '';
+            document.getElementById('security-answer').value = '';
+            document.getElementById('recover-email').value = '';
+            document.getElementById('recover-answer').value = '';
+            document.getElementById('recovered-password').style.display = 'none';
+        }
+
+        // Load user data from Google Sheets
+        async function loadUserData() {
+            try {
+                // Load expenses
+                const expensesResult = await callGoogleScript({
+                    action: 'getExpenses',
+                    userId: currentUser.id
+                });
+
+                if (expensesResult.success) {
+                    expenses = expensesResult.expenses.map(exp => ({
+                        ...exp,
+                        date: new Date(exp.date)
+                    }));
+                }
+
+                // Load settings
+                const settingsResult = await callGoogleScript({
+                    action: 'getSettings',
+                    userId: currentUser.id
+                });
+
+                if (settingsResult.success) {
+                    if (settingsResult.categories) {
+                        categories = settingsResult.categories.split(',').filter(c => c.trim());
+                    }
+                    if (settingsResult.monthlyBudget) {
+                        monthlyBudget = parseFloat(settingsResult.monthlyBudget);
+                    }
+                }
+
+                console.log(`Loaded data from Google Sheets: ${expenses.length} expenses, ${categories.length} categories`);
+                
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showNotification('Error loading data from cloud', 'warning');
+            }
+        }
+
+        // Save user settings to Google Sheets
+        async function saveUserSettings() {
+            try {
+                await callGoogleScript({
+                    action: 'saveSettings',
+                    userId: currentUser.id,
+                    categories: categories.join(','),
+                    monthlyBudget: monthlyBudget
+                });
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                throw error;
             }
         }
 
         // Event listeners for auth
         document.getElementById('signin-btn').addEventListener('click', handleSignIn);
         document.getElementById('signup-btn').addEventListener('click', handleSignUp);
+        document.getElementById('recover-btn').addEventListener('click', handleRecover);
         document.getElementById('signout-btn').addEventListener('click', handleSignOut);
 
         // Enter key support for auth forms
@@ -736,99 +946,9 @@
         document.getElementById('signup-confirm').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSignUp();
         });
-
-        // Auth state observer
-        auth.onAuthStateChanged(async (user) => {
-            console.log('Auth state changed:', user ? user.email : 'signed out');
-            
-            if (user) {
-                currentUser = user;
-                document.getElementById('auth-section').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                document.getElementById('user-email').textContent = user.email;
-                
-                // Load user data
-                await loadUserData();
-                updateDashboard();
-                
-                showNotification(`Welcome back, ${user.email}!`, 'success');
-                
-            } else {
-                currentUser = null;
-                document.getElementById('auth-section').style.display = 'block';
-                document.getElementById('main-app').style.display = 'none';
-                
-                // Reset form states
-                setButtonsEnabled(true);
-                hideAuthLoading();
-                
-                // Clear forms
-                document.getElementById('signin-email').value = '';
-                document.getElementById('signin-password').value = '';
-                document.getElementById('signup-email').value = '';
-                document.getElementById('signup-password').value = '';
-                document.getElementById('signup-confirm').value = '';
-            }
+        document.getElementById('recover-answer').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleRecover();
         });
-
-        // Load user data from Firestore
-        async function loadUserData() {
-            try {
-                console.log('Loading user data for:', currentUser.uid);
-                
-                // Load expenses
-                const expensesSnapshot = await db.collection('expenses')
-                    .where('userId', '==', currentUser.uid)
-                    .orderBy('date', 'desc')
-                    .get();
-                
-                expenses = [];
-                expensesSnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    expenses.push({ 
-                        id: doc.id, 
-                        ...data,
-                        date: data.date.toDate() // Convert Firestore timestamp to Date
-                    });
-                });
-                console.log(`Loaded ${expenses.length} expenses`);
-
-                // Load user settings
-                const userDoc = await db.collection('users').doc(currentUser.uid).get();
-                
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    if (userData.categories) {
-                        categories = userData.categories;
-                    }
-                    if (userData.monthlyBudget) {
-                        monthlyBudget = userData.monthlyBudget;
-                    }
-                    console.log('Loaded user settings');
-                }
-
-                populateCategories();
-                populateCategoryList();
-                
-            } catch (error) {
-                console.error('Error loading user data:', error);
-                showNotification('Error loading data: ' + error.message, 'danger');
-            }
-        }
-
-        // Save user settings to Firestore
-        async function saveUserSettings() {
-            try {
-                await db.collection('users').doc(currentUser.uid).set({
-                    categories: categories,
-                    monthlyBudget: monthlyBudget,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-            } catch (error) {
-                console.error('Error saving user settings:', error);
-                throw error;
-            }
-        }
 
         // Navigation
         document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -849,7 +969,6 @@
             
             if (tabName === 'reports') {
                 setTimeout(() => {
-                    createExpenseChart();
                     updateCategoryBreakdown();
                 }, 100);
             }
@@ -877,44 +996,48 @@
 
             const addButton = document.getElementById('add-expense-btn');
             addButton.disabled = true;
-            addButton.textContent = 'Adding...';
+            addButton.textContent = 'Saving...';
 
             try {
-                const expenseData = {
-                    userId: currentUser.uid,
+                const result = await callGoogleScript({
+                    action: 'addExpense',
+                    userId: currentUser.id,
                     amount: amount,
                     description: description,
                     category: category,
-                    date: firebase.firestore.Timestamp.fromDate(new Date(date)),
-                    paymentMethod: paymentMethod,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-
-                const docRef = await db.collection('expenses').add(expenseData);
-                
-                // Add to local array
-                expenses.unshift({ 
-                    id: docRef.id, 
-                    ...expenseData,
-                    date: new Date(date) // Convert back to Date for local use
+                    date: date,
+                    paymentMethod: paymentMethod
                 });
-                
-                // Reset form
-                document.getElementById('expense-form').reset();
-                document.getElementById('date').value = new Date().toISOString().split('T')[0];
-                
-                // Update UI
-                updateDashboard();
-                checkBudgetWarnings();
-                
-                showNotification('Expense added successfully!', 'success');
+
+                if (result.success) {
+                    // Add to local array
+                    expenses.unshift({
+                        amount: amount,
+                        description: description,
+                        category: category,
+                        date: new Date(date),
+                        paymentMethod: paymentMethod
+                    });
+                    
+                    // Reset form
+                    document.getElementById('expense-form').reset();
+                    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+                    
+                    // Update UI
+                    updateDashboard();
+                    checkBudgetWarnings();
+                    
+                    showNotification('Expense saved to cloud successfully!', 'success');
+                } else {
+                    showNotification('Failed to save expense', 'danger');
+                }
                 
             } catch (error) {
                 console.error('Error adding expense:', error);
-                showNotification('Error adding expense: ' + error.message, 'danger');
+                showNotification('Error saving to cloud. Please try again.', 'danger');
             } finally {
                 addButton.disabled = false;
-                addButton.textContent = 'Add Expense';
+                addButton.textContent = 'Add to Cloud';
             }
         });
 
@@ -940,11 +1063,11 @@
                 populateCategories();
                 populateCategoryList();
                 
-                showNotification('Category added successfully!', 'success');
+                showNotification('Category saved to cloud!', 'success');
                 
             } catch (error) {
                 console.error('Error adding category:', error);
-                showNotification('Error adding category: ' + error.message, 'danger');
+                showNotification('Error saving category to cloud', 'danger');
                 categories.pop(); // Remove from local array if save failed
             }
         });
@@ -963,11 +1086,11 @@
                 await saveUserSettings();
                 updateDashboard();
                 
-                showNotification('Budget updated successfully!', 'success');
+                showNotification('Budget saved to cloud!', 'success');
                 
             } catch (error) {
                 console.error('Error updating budget:', error);
-                showNotification('Error updating budget: ' + error.message, 'danger');
+                showNotification('Error saving budget to cloud', 'danger');
             }
         });
 
@@ -994,7 +1117,7 @@
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `expenses_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `expenses_${currentUser.email}_${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1097,7 +1220,7 @@
             recentContainer.innerHTML = '';
             
             if (expenses.length === 0) {
-                recentContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No expenses yet. Add your first expense!</p>';
+                recentContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No expenses yet. Add your first expense to get started!</p>';
                 return;
             }
             
@@ -1122,77 +1245,13 @@
             });
         }
 
-        // Charts and reports
-        function createExpenseChart() {
-            const ctx = document.getElementById('expense-chart');
-            if (!ctx) return;
-            
-            // Destroy existing chart
-            if (window.expenseChart) {
-                window.expenseChart.destroy();
-            }
-            
-            if (expenses.length === 0) {
-                ctx.getContext('2d').clearRect(0, 0, ctx.width, ctx.height);
-                const container = ctx.parentElement;
-                container.innerHTML = '<div style="text-align: center; padding: 50px; color: #666;">No expense data available for chart</div>';
-                return;
-            }
-            
-            // Reset container if it was replaced
-            if (!ctx.parentElement.querySelector('#expense-chart')) {
-                ctx.parentElement.innerHTML = '<canvas id="expense-chart"></canvas>';
-            }
-            
-            // Category totals
-            const categoryTotals = {};
-            expenses.forEach(expense => {
-                categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + expense.amount;
-            });
-            
-            const labels = Object.keys(categoryTotals);
-            const data = Object.values(categoryTotals);
-            const colors = [
-                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-                '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
-            ];
-            
-            window.expenseChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: colors.slice(0, labels.length),
-                        borderWidth: 2,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ₹' + context.parsed.toFixed(2);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
+        // Category breakdown
         function updateCategoryBreakdown() {
             const breakdownContainer = document.getElementById('category-breakdown');
             breakdownContainer.innerHTML = '<h3>Category Breakdown</h3>';
             
             if (expenses.length === 0) {
-                breakdownContainer.innerHTML += '<p style="text-align: center; color: #666; padding: 20px;">No expenses to show breakdown</p>';
+                breakdownContainer.innerHTML += '<p style="text-align: center; color: #666; padding: 20px;">No expenses to show breakdown. Start adding expenses to see your spending patterns!</p>';
                 return;
             }
             
@@ -1249,13 +1308,20 @@
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
+            // Check if Google Script URL is configured
+            if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbznZ2Cqn7dbayTSapTZAW8B5o7P2xQXRneM5fsci_4NQHts1XIBkZrc7zVQfDpSKNJS8g/exec') {
+                document.getElementById('cloud-status').className = 'cloud-status offline';
+                document.getElementById('cloud-status').textContent = '⚠️ Please configure your Google Apps Script URL first!';
+                showNotification('Please set up Google Sheets integration first', 'warning');
+            }
+
             // Set today's date as default
             document.getElementById('date').value = new Date().toISOString().split('T')[0];
             
-            console.log('💰 Expense Tracker with Firebase initialized!');
-            console.log('🔥 Ready for user authentication and cloud storage');
+            showAuthInterface();
+            showNotification('Welcome! Please sign in or create an account to sync with Google Sheets.', 'success');
             
-            showNotification('App loaded! Please sign in to continue.', 'success');
+            console.log('🚀 Expense Tracker with Google Sheets ready!');
         });
     </script>
 </body>
