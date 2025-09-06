@@ -1037,7 +1037,7 @@
                 showNotification('Error saving to cloud. Please try again.', 'danger');
             } finally {
                 addButton.disabled = false;
-                addButton.textContent = 'Add to Cloud';
+                addButton.textContent = 'Save to Google Sheets';
             }
         });
 
@@ -1308,20 +1308,14 @@
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if Google Script URL is configured
-            if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbznZ2Cqn7dbayTSapTZAW8B5o7P2xQXRneM5fsci_4NQHts1XIBkZrc7zVQfDpSKNJS8g/exec') {
-                document.getElementById('cloud-status').className = 'cloud-status offline';
-                document.getElementById('cloud-status').textContent = '⚠️ Please configure your Google Apps Script URL first!';
-                showNotification('Please set up Google Sheets integration first', 'warning');
-            }
-
             // Set today's date as default
             document.getElementById('date').value = new Date().toISOString().split('T')[0];
             
             showAuthInterface();
-            showNotification('Welcome! Please sign in or create an account to sync with Google Sheets.', 'success');
+            updateCloudStatus(false);
+            showNotification('Welcome! Your expense tracker is ready to use.', 'success');
             
-            console.log('🚀 Expense Tracker with Google Sheets ready!');
+            console.log('🚀 Expense Tracker ready!');
         });
     </script>
 </body>
