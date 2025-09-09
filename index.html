@@ -642,6 +642,11 @@
                     <input type="text" id="newCategoryInput" placeholder="e.g., Groceries">
                     <button id="addCategoryButton">Add Category</button>
                 </div>
+                <div class="settings-option" style="margin-top: 20px;">
+                    <label>Remove Category:</label>
+                    <select id="removeCategorySelect"></select>
+                    <button id="removeCategoryButton" style="background-color: #dc3545;">Remove Category</button>
+                </div>
             </div>
         </div>
     </div>
@@ -719,6 +724,8 @@
         const currencySelect = document.getElementById('currency-select');
         const newCategoryInput = document.getElementById('newCategoryInput');
         const addCategoryButton = document.getElementById('addCategoryButton');
+        const removeCategorySelect = document.getElementById('removeCategorySelect');
+        const removeCategoryButton = document.getElementById('removeCategoryButton');
         const transactionCategorySelect = document.getElementById('transactionCategory');
         const seeMoreBtn = document.getElementById('seeMoreBtn');
         const monthlyChartCanvas = document.getElementById('monthlyChart');
@@ -854,12 +861,28 @@
                     userCategories.push(newCategory);
                     await saveUserData({ categories: userCategories });
                     newCategoryInput.value = '';
-                    renderCategories(userCategories, transactionCategorySelect);
+                    renderCategories(userCategories);
                     showNotification('Category added successfully!', 'success');
                 } else {
                     showNotification('Category already exists.', 'warning');
                 }
             }
+        });
+        
+        removeCategoryButton.addEventListener('click', async () => {
+            const categoryToRemove = removeCategorySelect.value;
+            const userData = await loadUserData();
+            let userCategories = userData?.categories || [];
+
+            if (defaultCategories.includes(categoryToRemove)) {
+                showNotification('You cannot remove a default category.', 'danger');
+                return;
+            }
+            
+            userCategories = userCategories.filter(cat => cat !== categoryToRemove);
+            await saveUserData({ categories: userCategories });
+            renderCategories(userCategories);
+            showNotification('Category removed successfully!', 'success');
         });
 
         currencySelect.addEventListener('change', async (e) => {
@@ -1074,18 +1097,33 @@
                     currencySymbol = userData.currency;
                     currencySelect.value = currencySymbol;
                 }
-                renderCategories(userData.categories, transactionCategorySelect);
+                renderCategories(userData.categories);
             }
         }
 
-        function renderCategories(userCategories = [], selectElement) {
+        function renderCategories(userCategories = []) {
             const allCategories = [...defaultCategories, ...userCategories];
-            selectElement.innerHTML = '';
+            
+            // Clear and populate the 'Add Transaction' and 'Edit Transaction' category dropdowns
+            transactionCategorySelect.innerHTML = '';
+            editCategorySelect.innerHTML = '';
             allCategories.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category;
                 option.textContent = category;
-                selectElement.appendChild(option);
+                transactionCategorySelect.appendChild(option);
+
+                const editOption = option.cloneNode(true);
+                editCategorySelect.appendChild(editOption);
+            });
+
+            // Clear and populate the 'Remove Category' dropdown with custom categories only
+            removeCategorySelect.innerHTML = '';
+            userCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                removeCategorySelect.appendChild(option);
             });
         }
 
