@@ -446,6 +446,12 @@
             background-color: #f1f1f1;
             color: #333;
         }
+        
+        .info-message {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 10px;
+        }
 
         @media (max-width: 768px) {
             .form-section form {
@@ -493,7 +499,8 @@
                 <button type="submit">Log In</button>
             </form>
             <div class="auth-switch">
-                <a href="#" id="show-register">Don't have an account? Register here</a>
+                <a href="#" id="show-register">Don't have an account? Register here</a> | 
+                <a href="#" id="show-password-recovery">Forgot Password?</a>
             </div>
         </div>
 
@@ -506,6 +513,19 @@
             </form>
             <div class="auth-switch">
                 <a href="#" id="show-login">Already have an account? Log In</a>
+            </div>
+        </div>
+
+        <div id="password-recovery-section" class="auth-section">
+            <h2>Password Recovery</h2>
+            <p>Enter your email address and we'll send you a password reset link.</p>
+            <p class="info-message"><i><b>If reset link not received in Inbox, please check your email's Spam folder.</b></i></p>
+            <form id="password-recovery-form" class="auth-form">
+                <input type="email" id="recoveryEmail" placeholder="Email" required>
+                <button type="submit">Send Reset Email</button>
+            </form>
+            <div class="auth-switch">
+                <a href="#" id="show-login-from-recovery">Back to Login</a>
             </div>
         </div>
 
@@ -708,11 +728,15 @@
         const registerForm = document.getElementById('register-form');
         const addTransactionForm = document.getElementById('addTransactionForm');
         const setBudgetForm = document.getElementById('setBudgetForm');
+        const passwordRecoveryForm = document.getElementById('password-recovery-form');
         const loginSection = document.getElementById('login-section');
         const registerSection = document.getElementById('register-section');
+        const passwordRecoverySection = document.getElementById('password-recovery-section');
         const dashboardSection = document.getElementById('dashboard-section');
         const showRegisterBtn = document.getElementById('show-register');
         const showLoginBtn = document.getElementById('show-login');
+        const showPasswordRecoveryBtn = document.getElementById('show-password-recovery');
+        const showLoginFromRecoveryBtn = document.getElementById('show-login-from-recovery');
         const signOutButton = document.getElementById('signOutButton');
         const authStatus = document.getElementById('auth-status');
         const totalBalanceEl = document.getElementById('totalBalance');
@@ -771,12 +795,15 @@
         function renderAuthView(view = 'login') {
             loginSection.style.display = 'none';
             registerSection.style.display = 'none';
+            passwordRecoverySection.style.display = 'none';
             dashboardSection.style.display = 'none';
 
             if (view === 'login') {
                 loginSection.style.display = 'block';
             } else if (view === 'register') {
                 registerSection.style.display = 'block';
+            } else if (view === 'password-recovery') {
+                passwordRecoverySection.style.display = 'block';
             }
         }
 
@@ -784,6 +811,7 @@
             if (auth.currentUser) {
                 loginSection.style.display = 'none';
                 registerSection.style.display = 'none';
+                passwordRecoverySection.style.display = 'none';
                 dashboardSection.style.display = 'block';
                 authStatus.textContent = `Welcome, ${auth.currentUser.email}!`;
                 await loadSettings();
@@ -823,6 +851,19 @@
             try {
                 await auth.signInWithEmailAndPassword(email, password);
                 showNotification('Login successful!', 'success');
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'danger');
+            }
+        });
+
+        passwordRecoveryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.recoveryEmail.value;
+            
+            try {
+                await auth.sendPasswordResetEmail(email);
+                showNotification('Password reset email sent! Check your inbox.', 'success');
+                renderAuthView('login');
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'danger');
             }
@@ -1260,6 +1301,16 @@
         });
 
         showLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderAuthView('login');
+        });
+        
+        showPasswordRecoveryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderAuthView('password-recovery');
+        });
+
+        showLoginFromRecoveryBtn.addEventListener('click', (e) => {
             e.preventDefault();
             renderAuthView('login');
         });
