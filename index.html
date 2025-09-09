@@ -39,608 +39,899 @@
         .auth-section {
             background: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .main-app {
-            display: none;
-        }
-
-        .nav-tabs {
-            display: flex;
-            background: white;
-            border-radius: 15px;
-            padding: 5px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .nav-tab {
-            flex: 1;
-            padding: 15px;
-            background: none;
-            border: none;
             border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .nav-tab.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .tab-content {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-top: 50px;
             display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
         }
 
-        .tab-content.active {
+        .auth-section.active {
             display: block;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .form-control {
-            width: 100%;
+        .auth-form input {
             padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
         }
 
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 12px 30px;
+        .auth-form button {
+            padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-size: 1em;
+            font-weight: bold;
+            color: white;
+            background: #764ba2;
+            transition: background 0.3s;
+        }
+
+        .auth-form button:hover {
+            background: #667eea;
+        }
+
+        .auth-switch {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .auth-switch a {
+            color: #667eea;
             text-decoration: none;
-            display: inline-block;
-            margin: 5px;
+            font-weight: bold;
+            transition: color 0.3s;
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .auth-switch a:hover {
+            color: #764ba2;
+            text-decoration: underline;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-
-        .expense-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
+        .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .expense-details {
-            flex: 1;
-        }
-
-        .expense-amount {
-            font-weight: bold;
-            color: #dc3545;
-            font-size: 18px;
-        }
-
-        .expense-category {
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-right: 10px;
-        }
-
-        .summary-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
             margin-bottom: 20px;
         }
 
-        .summary-amount {
-            font-size: 2.5em;
+        .dashboard-header button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
-            margin-bottom: 10px;
+            color: white;
+            background: #dc3545;
+            transition: background 0.3s;
         }
 
-        .budget-progress {
-            background: rgba(255,255,255,0.2);
+        .dashboard-header button:hover {
+            background: #c82333;
+        }
+        
+        .dashboard-section {
+            display: none;
+        }
+
+        .summary-card-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
             border-radius: 10px;
-            height: 20px;
-            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .summary-card h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #764ba2;
+        }
+
+        .summary-card p {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .summary-card .income { color: #28a745; }
+        .summary-card .expense { color: #dc3545; }
+        .summary-card .balance { color: #007bff; }
+
+        .form-section, .budget-section, .transactions-section, .settings-section, .reports-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .form-section h2, .budget-section h2, .transactions-section h2, .settings-section h2, .reports-section h2 {
+            margin-bottom: 20px;
+            color: #764ba2;
+        }
+
+        .form-section form {
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(5, 1fr) auto;
+        }
+        
+        .settings-section .settings-option, .budget-section .budget-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .settings-section .settings-option select,
+        .settings-section .settings-option input,
+        .budget-section .budget-form input {
+            flex-grow: 1;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-section input, .form-section select, .form-section button,
+        .budget-section input, .budget-section button,
+        .settings-section input, .settings-section select, .settings-section button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .form-section button, .budget-section button, .settings-section button {
+            background: #764ba2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-section button:hover, .budget-section button:hover, .settings-section button:hover {
+            background: #667eea;
+        }
+
+        .transactions-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        #transactionList {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-item .description {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .transaction-item .details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .transaction-item .amount {
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        .transaction-item .expense-amount {
+            color: white;
+            background-color: #dc3545;
+        }
+
+        .transaction-item .income-amount {
+            color: white;
+            background-color: #28a745;
+        }
+
+        .transaction-item .date {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .transaction-item .delete-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .budget-progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 20px;
+            margin-top: 15px;
             overflow: hidden;
         }
 
-        .budget-fill {
-            height: 100%;
-            background: #28a745;
-            transition: width 0.3s;
-            border-radius: 10px;
-        }
-
-        .budget-warning {
-            background: #ffc107 !important;
-        }
-
-        .budget-danger {
-            background: #dc3545 !important;
-        }
-
-        .chart-container {
-            margin: 20px 0;
-            height: 400px;
-            position: relative;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
+        .budget-progress-bar {
+            height: 25px;
+            background-color: #28a745;
             text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .category-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .category-card:hover {
-            background: #667eea;
+            line-height: 25px;
             color: white;
-        }
-
-        .category-icon {
-            font-size: 2em;
-            margin-bottom: 10px;
+            transition: width 0.4s ease;
         }
 
         .notification {
             position: fixed;
             top: 20px;
-            right: 20px;
-            padding: 15px 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
             border-radius: 8px;
             color: white;
+            font-weight: bold;
             z-index: 1000;
-            transform: translateX(400px);
-            transition: transform 0.3s;
-            max-width: 300px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
         .notification.show {
-            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
         }
 
         .notification.success {
-            background: #28a745;
+            background-color: #28a745;
         }
 
         .notification.warning {
-            background: #ffc107;
-            color: #333;
+            background-color: #ffc107;
         }
 
         .notification.danger {
-            background: #dc3545;
+            background-color: #dc3545;
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #666;
+        .notification.info {
+            background-color: #17a2b8;
         }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .user-info {
-            background: rgba(255,255,255,0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: white;
-        }
-
-        .auth-tabs {
+        
+        .reports-container {
             display: flex;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
         }
-
-        .auth-tab {
+        
+        .chart-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             flex: 1;
-            padding: 10px;
-            background: #f8f9fa;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .auth-tab.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .auth-tab:first-child {
-            border-radius: 8px 0 0 8px;
-        }
-
-        .auth-tab:last-child {
-            border-radius: 0 8px 8px 0;
-        }
-
-        .cloud-status {
-            background: rgba(40, 167, 69, 0.1);
-            color: #155724;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .cloud-status.offline {
-            background: rgba(220, 53, 69, 0.1);
-            color: #721c24;
+            min-width: 300px;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .nav-tabs {
-                flex-direction: column;
-            }
-            
-            .stats-grid {
+            .form-section form {
                 grid-template-columns: 1fr;
-            }
-
-            .notification {
-                max-width: 250px;
-                right: 10px;
-            }
-
-            .auth-tabs {
-                flex-direction: column;
-            }
-
-            .auth-tab {
-                border-radius: 0 !important;
-                margin-bottom: 2px;
-            }
-
-            .auth-tab:first-child {
-                border-radius: 8px 8px 0 0 !important;
-            }
-
-            .auth-tab:last-child {
-                border-radius: 0 0 8px 8px !important;
             }
         }
     </style>
 </head>
 <body>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // PASTE YOUR FIREBASE CONFIG HERE
+        // Replace this with your actual Firebase project configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCORUf4_-0cOraupMpCOeDDSz9ErQF8oMw",
+    authDomain: "daily-expense-tracker-eff56.firebaseapp.com",
+    projectId: "daily-expense-tracker-eff56",
+    storageBucket: "daily-expense-tracker-eff56.firebasestorage.app",
+    messagingSenderId: "693932204492",
+    appId: "1:693932204492:web:82363c870bd2bfc239fd69",
+    measurementId: "G-YMMPTCSDTB"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
     <div class="container">
         <div class="header">
-            <h1>💰 Daily Expense Tracker</h1>
-            <p>Track your expenses, manage your budget, achieve your goals</p>
+            <h1>Daily Expense Tracker</h1>
+            <p id="auth-status">Welcome!</p>
         </div>
 
-        <div id="cloud-status" class="cloud-status">
-            ☁️ Connected to Google Sheets - Your data is safely stored in the cloud!
+        <div id="login-section" class="auth-section active">
+            <h2>Login</h2>
+            <form id="login-form" class="auth-form">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit">Log In</button>
+            </form>
+            <div class="auth-switch">
+                <a href="#" id="show-register">Don't have an account? Register here</a>
+            </div>
         </div>
 
-        <!-- Authentication Section -->
-        <div id="auth-section" class="auth-section">
-            <h2>Welcome! Please sign in to continue</h2>
+        <div id="register-section" class="auth-section">
+            <h2>Register</h2>
+            <form id="register-form" class="auth-form">
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <div class="auth-switch">
+                <a href="#" id="show-login">Already have an account? Log In</a>
+            </div>
+        </div>
+
+        <div id="dashboard-section" class="dashboard-section">
+            <div class="dashboard-header">
+                <h2 id="dashboard-title">Dashboard</h2>
+                <button id="signOutButton">Sign Out</button>
+            </div>
             
-            <!-- Auth Tabs -->
-            <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="signin">Sign In</button>
-                <button class="auth-tab" data-tab="signup">Sign Up</button>
-                <button class="auth-tab" data-tab="recover">Recover Account</button>
-            </div>
-
-            <!-- Sign In Form -->
-            <div id="signin-form" class="auth-form">
-                <div class="form-group">
-                    <input type="email" id="signin-email" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signin-password" class="form-control" placeholder="Enter your password" required>
-                </div>
-                <button class="btn btn-primary" id="signin-btn">Sign In</button>
-            </div>
-
-            <!-- Sign Up Form -->
-            <div id="signup-form" class="auth-form" style="display: none;">
-                <div class="form-group">
-                    <input type="email" id="signup-email" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signup-password" class="form-control" placeholder="Create password (min 6 characters)" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signup-confirm" class="form-control" placeholder="Confirm password" required>
-                </div>
-                <div class="form-group">
-                    <select id="security-question" class="form-control" required>
-                        <option value="">Select Security Question</option>
-                        <option value="pet">What was the name of your first pet?</option>
-                        <option value="school">What was the name of your elementary school?</option>
-                        <option value="city">In what city were you born?</option>
-                        <option value="mother">What is your mother's maiden name?</option>
-                        <option value="friend">What was the name of your first best friend?</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="security-answer" class="form-control" placeholder="Security answer" required>
-                </div>
-                <button class="btn btn-success" id="signup-btn">Create Account</button>
-            </div>
-
-            <!-- Recover Password Form -->
-            <div id="recover-form" class="auth-form" style="display: none;">
-                <div class="form-group">
-                    <input type="email" id="recover-email" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="recover-answer" class="form-control" placeholder="Answer to your security question" required>
-                </div>
-                <button class="btn btn-warning" id="recover-btn">Recover Password</button>
-                <div id="recovered-password" style="display: none; margin-top: 15px; padding: 15px; background: #d4edda; border-radius: 8px; color: #155724;"></div>
-            </div>
-
-            <div id="auth-status" class="loading" style="display: none;">
-                <div class="spinner"></div>
-                <div id="auth-message">Loading...</div>
-            </div>
-        </div>
-
-        <!-- Main App -->
-        <div id="main-app" class="main-app">
-            <div class="user-info">
-                <span id="user-email">Loading...</span> | 
-                <button class="btn btn-danger" id="signout-btn" style="padding: 5px 15px; margin: 0;">Sign Out</button>
-            </div>
-
-            <!-- Navigation -->
-            <div class="nav-tabs">
-                <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
-                <button class="nav-tab" data-tab="add-expense">Add Expense</button>
-                <button class="nav-tab" data-tab="reports">Reports</button>
-                <button class="nav-tab" data-tab="budget">Budget</button>
-                <button class="nav-tab" data-tab="categories">Categories</button>
-            </div>
-
-            <!-- Dashboard Tab -->
-            <div id="dashboard" class="tab-content active">
+            <div class="summary-card-container">
                 <div class="summary-card">
-                    <h2>Today's Expenses</h2>
-                    <div class="summary-amount" id="today-total">₹0</div>
-                    <div class="budget-progress">
-                        <div class="budget-fill" id="daily-progress"></div>
-                    </div>
-                    <p id="budget-status">Budget remaining: ₹0</p>
+                    <h2>Total Balance</h2>
+                    <p id="totalBalance" class="balance">₹0.00</p>
                 </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number" id="monthly-total">₹0</div>
-                        <p>This Month</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="yearly-total">₹0</div>
-                        <p>This Year</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="avg-daily">₹0</div>
-                        <p>Daily Average</p>
-                    </div>
+                <div class="summary-card">
+                    <h2>Total Income</h2>
+                    <p id="totalIncome" class="income">₹0.00</p>
                 </div>
-
-                <h3>Recent Transactions</h3>
-                <div id="recent-expenses">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <div>Loading your expenses from cloud...</div>
-                    </div>
+                <div class="summary-card">
+                    <h2>Total Expenses</h2>
+                    <p id="totalExpense" class="expense">₹0.00</p>
                 </div>
             </div>
 
-            <!-- Add Expense Tab -->
-            <div id="add-expense" class="tab-content">
-                <h2>Add New Expense</h2>
-                <form id="expense-form">
+            <div class="budget-section">
+                <h2>Monthly Budget</h2>
+                <form id="setBudgetForm" class="budget-form">
+                    <input type="number" id="budgetAmount" placeholder="Enter monthly budget" step="0.01" required>
+                    <button type="submit">Set Budget</button>
+                </form>
+                <div class="budget-progress-container">
+                    <div id="budgetProgressBar" class="budget-progress-bar" style="width: 0%;">0%</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Add New Transaction</h2>
+                <form id="addTransactionForm">
                     <div class="form-group">
-                        <label for="amount">Amount (₹)</label>
-                        <input type="number" id="amount" class="form-control" required step="0.01" placeholder="Enter amount">
+                        <label for="transactionDescription">Description</label>
+                        <input type="text" id="transactionDescription" required>
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" id="description" class="form-control" required placeholder="What did you spend on?">
+                        <label for="transactionAmount">Amount</label>
+                        <input type="number" id="transactionAmount" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <label for="category">Category</label>
-                        <select id="category" class="form-control" required>
-                            <option value="">Select Category</option>
+                        <label for="transactionType">Type</label>
+                        <select id="transactionType">
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="date">Date</label>
-                        <input type="date" id="date" class="form-control" required>
+                        <label for="transactionCategory">Category</label>
+                        <select id="transactionCategory"></select>
                     </div>
                     <div class="form-group">
-                        <label for="payment-method">Payment Method</label>
-                        <select id="payment-method" class="form-control" required>
-                            <option value="cash">Cash</option>
-                            <option value="card">Debit/Credit Card</option>
-                            <option value="upi">UPI</option>
-                            <option value="bank">Bank Transfer</option>
-                        </select>
+                        <label for="transactionDate">Date</label>
+                        <input type="date" id="transactionDate">
                     </div>
-                    <button type="submit" class="btn btn-primary" id="add-expense-btn">Add to Cloud</button>
+                    <button type="submit">Add Transaction</button>
                 </form>
             </div>
 
-            <!-- Reports Tab -->
-            <div id="reports" class="tab-content">
-                <h2>Expense Reports</h2>
-                <div class="chart-container">
-                    <div style="text-align: center; padding: 50px; color: #666;" id="chart-placeholder">
-                        📊 Visual charts will appear here when you add expenses
-                    </div>
-                </div>
-                <div id="category-breakdown"></div>
-                <button class="btn btn-success" id="export-btn">Export to CSV</button>
+            <div class="transactions-section">
+                <h2>Transactions</h2>
+                <ul id="transactionList">
+                    </ul>
+                <button id="seeMoreBtn" style="display:none; margin-top: 10px; width: 100%; padding: 10px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">See More</button>
             </div>
 
-            <!-- Budget Tab -->
-            <div id="budget" class="tab-content">
-                <h2>Budget Management</h2>
-                <div class="form-group">
-                    <label for="monthly-budget">Monthly Budget (₹)</label>
-                    <input type="number" id="monthly-budget" class="form-control" step="0.01" placeholder="Enter your monthly budget">
-                </div>
-                <button class="btn btn-primary" id="update-budget-btn">Save to Cloud</button>
-                
-                <h3>Budget Progress</h3>
-                <div class="summary-card">
-                    <h3>Monthly Budget Status</h3>
-                    <div class="budget-progress">
-                        <div class="budget-fill" id="monthly-progress"></div>
+            <div class="reports-section">
+                <h2>Reports</h2>
+                <div class="reports-container">
+                    <div class="chart-container">
+                        <h3>Monthly Income vs. Expenses</h3>
+                        <canvas id="monthlyChart"></canvas>
                     </div>
-                    <p id="monthly-budget-status">Set your budget to see progress</p>
+                    <div class="chart-container">
+                        <h3>Expenses by Category</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <!-- Categories Tab -->
-            <div id="categories" class="tab-content">
-                <h2>Manage Categories</h2>
-                <div class="form-group">
-                    <label for="new-category">New Category Name</label>
-                    <input type="text" id="new-category" class="form-control" placeholder="Enter category name">
+            <div class="settings-section">
+                <h2>Settings</h2>
+                <div class="settings-option">
+                    <label for="currency-select">Preferred Currency:</label>
+                    <select id="currency-select">
+                        <option value="₹">Indian Rupee (₹)</option>
+                        <option value="$">US Dollar ($)</option>
+                        <option value="€">Euro (€)</option>
+                        <option value="£">British Pound (£)</option>
+                        <option value="¥">Japanese Yen (¥)</option>
+                        <option value="A$">Australian Dollar (A$)</option>
+                        <option value="C$">Canadian Dollar (C$)</option>
+                        <option value="Fr">Swiss Franc (Fr)</option>
+                        <option value="R">South African Rand (R)</option>
+                        <option value="₩">South Korean Won (₩)</option>
+                        <option value="Mex$">Mexican Peso (Mex$)</option>
+                        <option value="R$">Brazilian Real (R$)</option>
+                        <option value="₽">Russian Ruble (₽)</option>
+                        <option value="kr">Swedish Krona (kr)</option>
+                        <option value="zł">Polish Złoty (zł)</option>
+                        <option value="DKK">Danish Krone (DKK)</option>
+                        <option value="د.إ">UAE Dirham (د.إ)</option>
+                        <option value="SGD">Singapore Dollar (SGD)</option>
+                        <option value="HK$">Hong Kong Dollar (HK$)</option>
+                        <option value="₺">Turkish Lira (₺)</option>
+                    </select>
                 </div>
-                <button class="btn btn-primary" id="add-category-btn">Save to Cloud</button>
-                
-                <h3>Your Categories</h3>
-                <div class="category-grid" id="category-list"></div>
+                <div class="settings-option" style="margin-top: 20px;">
+                    <label>Add New Category:</label>
+                    <input type="text" id="newCategoryInput" placeholder="e.g., Groceries">
+                    <button id="addCategoryButton">Add Category</button>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Notification -->
+    
     <div id="notification" class="notification"></div>
 
     <script>
-        // ⚠️ REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyR-0kjH-DqT4rqR3LJ32VOC3Zmr4CSXowiDv6bv0fFBARY0xnI1yOs6B8vVOMo74Lk/exec';
-        
-        // Global variables
-        let currentUser = null;
-        let expenses = [];
-        let categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Bills & Utilities', 'Healthcare', 'Education', 'Travel', 'Groceries', 'Personal Care'];
-        let monthlyBudget = 10000;
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const addTransactionForm = document.getElementById('addTransactionForm');
+        const setBudgetForm = document.getElementById('setBudgetForm');
+        const loginSection = document.getElementById('login-section');
+        const registerSection = document.getElementById('register-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const showRegisterBtn = document.getElementById('show-register');
+        const showLoginBtn = document.getElementById('show-login');
+        const signOutButton = document.getElementById('signOutButton');
+        const authStatus = document.getElementById('auth-status');
+        const totalBalanceEl = document.getElementById('totalBalance');
+        const totalIncomeEl = document.getElementById('totalIncome');
+        const totalExpenseEl = document.getElementById('totalExpense');
+        const transactionList = document.getElementById('transactionList');
+        const budgetAmountInput = document.getElementById('budgetAmount');
+        const budgetProgressBar = document.getElementById('budgetProgressBar');
+        const currencySelect = document.getElementById('currency-select');
+        const newCategoryInput = document.getElementById('newCategoryInput');
+        const addCategoryButton = document.getElementById('addCategoryButton');
+        const transactionCategorySelect = document.getElementById('transactionCategory');
+        const seeMoreBtn = document.getElementById('seeMoreBtn');
+        const monthlyChartCanvas = document.getElementById('monthlyChart');
+        const categoryChartCanvas = document.getElementById('categoryChart');
 
-        console.log('💰 Expense Tracker with Google Sheets Database initialized!');
+        const defaultCategories = ['Food', 'Transport', 'Utilities', 'Shopping', 'Salary'];
 
-        // Utility functions
-        function showNotification(message, type = 'success') {
+        let monthlyBudget = 0;
+        let currencySymbol = '₹';
+        let monthlyChart = null;
+        let categoryChart = null;
+
+        const userDataRef = (uid) => db.collection('users').doc(uid);
+
+        async function saveUserData(data) {
+            if (auth.currentUser) {
+                await userDataRef(auth.currentUser.uid).set(data, { merge: true });
+            }
+        }
+
+        async function loadUserData() {
+            if (auth.currentUser) {
+                const doc = await userDataRef(auth.currentUser.uid).get();
+                return doc.exists ? doc.data() : null;
+            }
+            return null;
+        }
+
+        function renderAuthView(view = 'login') {
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'none';
+            dashboardSection.style.display = 'none';
+
+            if (view === 'login') {
+                loginSection.style.display = 'block';
+            } else if (view === 'register') {
+                registerSection.style.display = 'block';
+            }
+        }
+
+        async function renderDashboard() {
+            if (auth.currentUser) {
+                loginSection.style.display = 'none';
+                registerSection.style.display = 'none';
+                dashboardSection.style.display = 'block';
+                authStatus.textContent = `Welcome, ${auth.currentUser.email}!`;
+                await loadSettings();
+                await renderTransactionList();
+                updateSummary();
+                await renderReports();
+            } else {
+                dashboardSection.style.display = 'none';
+                renderAuthView('login');
+                authStatus.textContent = `Welcome!`;
+            }
+        }
+
+        auth.onAuthStateChanged(user => {
+            renderDashboard();
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.registerEmail.value;
+            const password = e.target.registerPassword.value;
+            
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                showNotification('Registration successful! Please log in.', 'success');
+                renderAuthView('login');
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'danger');
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.loginEmail.value;
+            const password = e.target.loginPassword.value;
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                showNotification('Login successful!', 'success');
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'danger');
+            }
+        });
+
+        signOutButton.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                showNotification('Signed out successfully!', 'info');
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'danger');
+            }
+        });
+
+        setBudgetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const budget = parseFloat(e.target.budgetAmount.value);
+            if (isNaN(budget) || budget <= 0) {
+                showNotification('Please enter a valid budget amount.', 'danger');
+                return;
+            }
+            monthlyBudget = budget;
+            await saveUserData({ budget: monthlyBudget });
+            showNotification('Budget updated successfully!', 'success');
+            updateSummary();
+        });
+
+        addCategoryButton.addEventListener('click', async () => {
+            const newCategory = newCategoryInput.value.trim();
+            if (newCategory) {
+                const userData = await loadUserData();
+                const userCategories = userData?.categories || [];
+                const allCategories = [...defaultCategories, ...userCategories];
+                
+                if (!allCategories.includes(newCategory)) {
+                    userCategories.push(newCategory);
+                    await saveUserData({ categories: userCategories });
+                    newCategoryInput.value = '';
+                    renderCategories(userCategories);
+                    showNotification('Category added successfully!', 'success');
+                } else {
+                    showNotification('Category already exists.', 'warning');
+                }
+            }
+        });
+
+        currencySelect.addEventListener('change', async (e) => {
+            currencySymbol = e.target.value;
+            await saveUserData({ currency: currencySymbol });
+            updateSummary();
+            renderTransactionList();
+            showNotification('Currency updated!', 'success');
+        });
+
+        addTransactionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const description = e.target.transactionDescription.value;
+            const amount = parseFloat(e.target.transactionAmount.value);
+            const type = e.target.transactionType.value;
+            const category = e.target.transactionCategory.value;
+            const date = e.target.transactionDate.value || new Date().toISOString().substring(0, 10);
+
+            if (isNaN(amount) || amount <= 0) {
+                showNotification('Please enter a valid amount.', 'danger');
+                return;
+            }
+
+            const transactions = (await loadUserData())?.transactions || [];
+            const newTransaction = {
+                id: Date.now(),
+                description,
+                amount,
+                type,
+                category,
+                date: new Date(date).toISOString()
+            };
+            transactions.push(newTransaction);
+            await saveUserData({ transactions });
+
+            showNotification('Transaction added!', 'success');
+            e.target.reset();
+            updateSummary();
+            await renderTransactionList();
+            await renderReports();
+        });
+
+        async function renderTransactionList(showAll = false) {
+            transactionList.innerHTML = '';
+            const allTransactions = (await loadUserData())?.transactions || [];
+            allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            let transactionsToDisplay;
+            if (showAll) {
+                transactionsToDisplay = allTransactions;
+                seeMoreBtn.style.display = 'none';
+            } else {
+                transactionsToDisplay = allTransactions.slice(0, 5);
+                if (allTransactions.length > 5) {
+                    seeMoreBtn.style.display = 'block';
+                } else {
+                    seeMoreBtn.style.display = 'none';
+                }
+            }
+
+            transactionsToDisplay.forEach(transaction => {
+                const listItem = document.createElement('li');
+                listItem.className = 'transaction-item';
+                const amountClass = transaction.type === 'expense' ? 'expense-amount' : 'income-amount';
+                listItem.innerHTML = `
+                    <span class="description">${transaction.description} (${transaction.category})</span>
+                    <div class="details">
+                        <span class="amount ${amountClass}">${currencySymbol}${transaction.amount.toFixed(2)}</span>
+                        <span class="date">${new Date(transaction.date).toLocaleDateString()}</span>
+                        <button class="delete-btn" onclick="deleteTransaction(${transaction.id})">&times;</button>
+                    </div>
+                `;
+                transactionList.appendChild(listItem);
+            });
+        }
+
+        seeMoreBtn.addEventListener('click', () => {
+            renderTransactionList(true);
+        });
+
+        async function deleteTransaction(id) {
+            let transactions = (await loadUserData())?.transactions || [];
+            transactions = transactions.filter(transaction => transaction.id !== id);
+            await saveUserData({ transactions });
+            showNotification('Transaction deleted!', 'info');
+            updateSummary();
+            await renderTransactionList();
+            await renderReports();
+        }
+
+        async function updateSummary() {
+            const transactions = (await loadUserData())?.transactions || [];
+            const totalIncome = transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+
+            const totalExpense = transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+
+            const totalBalance = totalIncome - totalExpense;
+
+            totalBalanceEl.textContent = `${currencySymbol}${totalBalance.toFixed(2)}`;
+            totalIncomeEl.textContent = `${currencySymbol}${totalIncome.toFixed(2)}`;
+            totalExpenseEl.textContent = `${currencySymbol}${totalExpense.toFixed(2)}`;
+
+            totalBalanceEl.style.color = totalBalance >= 0 ? '#007bff' : '#dc3545';
+
+            updateBudgetProgress(totalExpense);
+        }
+
+        function updateBudgetProgress(totalExpense) {
+            if (monthlyBudget > 0) {
+                const monthlyProgress = (totalExpense / monthlyBudget) * 100;
+                budgetProgressBar.style.width = `${Math.min(monthlyProgress, 100)}%`;
+                budgetProgressBar.textContent = `${Math.round(monthlyProgress)}%`;
+
+                if (monthlyProgress >= 100) {
+                    budgetProgressBar.style.backgroundColor = '#dc3545';
+                    showNotification(`⚠️ Budget exceeded! You have spent ${currencySymbol}${totalExpense.toFixed(2)} this month.`, 'danger');
+                } else if (monthlyProgress >= 90) {
+                    budgetProgressBar.style.backgroundColor = '#ffc107';
+                    showNotification('⚠️ You have used 90% of your monthly budget!', 'warning');
+                } else if (monthlyProgress >= 80) {
+                    budgetProgressBar.style.backgroundColor = '#ffc107';
+                    showNotification('💡 You have used 80% of your monthly budget. Consider reducing expenses.', 'warning');
+                } else {
+                    budgetProgressBar.style.backgroundColor = '#28a745';
+                }
+            } else {
+                budgetProgressBar.style.width = '0%';
+                budgetProgressBar.textContent = 'Set a budget';
+                budgetProgressBar.style.backgroundColor = '#e0e0e0';
+            }
+        }
+
+        async function loadSettings() {
+            const userData = await loadUserData();
+            if (userData) {
+                if (userData.budget) {
+                    monthlyBudget = userData.budget;
+                    budgetAmountInput.value = monthlyBudget > 0 ? monthlyBudget : '';
+                }
+                if (userData.currency) {
+                    currencySymbol = userData.currency;
+                    currencySelect.value = currencySymbol;
+                }
+                renderCategories(userData.categories);
+            }
+        }
+
+        function renderCategories(userCategories = []) {
+            const allCategories = [...defaultCategories, ...userCategories];
+            transactionCategorySelect.innerHTML = '';
+            allCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                transactionCategorySelect.appendChild(option);
+            });
+        }
+
+        async function renderReports() {
+            const transactions = (await loadUserData())?.transactions || [];
+
+            // Group transactions by month and year
+            const monthlyData = {};
+            const categoryData = {};
+
+            transactions.forEach(t => {
+                const date = new Date(t.date);
+                const monthYear = `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+                
+                if (!monthlyData[monthYear]) {
+                    monthlyData[monthYear] = { income: 0, expense: 0 };
+                }
+
+                if (t.type === 'income') {
+                    monthlyData[monthYear].income += t.amount;
+                } else {
+                    monthlyData[monthYear].expense += t.amount;
+                    if (!categoryData[t.category]) {
+                        categoryData[t.category] = 0;
+                    }
+                    categoryData[t.category] += t.amount;
+                }
+            });
+
+            // Create data for monthly chart
+            const monthlyLabels = Object.keys(monthlyData).sort((a, b) => new Date(a) - new Date(b));
+            const monthlyIncome = monthlyLabels.map(label => monthlyData[label].income);
+            const monthlyExpenses = monthlyLabels.map(label => monthlyData[label].expense);
+            
+            // Create data for category chart
+            const categoryLabels = Object.keys(categoryData);
+            const categoryExpenses = Object.values(categoryData);
+
+            // Render monthly chart
+            if (monthlyChart) monthlyChart.destroy();
+            monthlyChart = new Chart(monthlyChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: monthlyLabels,
+                    datasets: [{
+                        label: 'Income',
+                        data: monthlyIncome,
+                        backgroundColor: '#28a745'
+                    }, {
+                        label: 'Expenses',
+                        data: monthlyExpenses,
+                        backgroundColor: '#dc3545'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Render category chart
+            if (categoryChart) categoryChart.destroy();
+            const colors = categoryLabels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.8)`);
+            categoryChart = new Chart(categoryChartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        data: categoryExpenses,
+                        backgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
+
+        function showNotification(message, type) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.className = `notification ${type} show`;
@@ -649,678 +940,16 @@
                 notification.classList.remove('show');
             }, 4000);
         }
-
-        function showAuthLoading(message) {
-            document.getElementById('auth-status').style.display = 'block';
-            document.getElementById('auth-message').textContent = message;
-        }
-
-        function hideAuthLoading() {
-            document.getElementById('auth-status').style.display = 'none';
-        }
-
-        function setButtonsEnabled(enabled) {
-            document.getElementById('signin-btn').disabled = !enabled;
-            document.getElementById('signup-btn').disabled = !enabled;
-            document.getElementById('recover-btn').disabled = !enabled;
-        }
-
-        // Google Sheets API functions
-        async function callGoogleScript(data) {
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                const result = await response.json();
-                return result;
-            } catch (error) {
-                console.error('Google Script call failed:', error);
-                document.getElementById('cloud-status').className = 'cloud-status offline';
-                document.getElementById('cloud-status').textContent = '⚠️ Offline mode - Please check your connection';
-                throw new Error('Failed to connect to Google Sheets');
-            }
-        }
-
-        // Auth tab switching
-        document.querySelectorAll('.auth-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabName = tab.getAttribute('data-tab');
-                
-                // Switch active tab
-                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Show corresponding form
-                document.getElementById('signin-form').style.display = tabName === 'signin' ? 'block' : 'none';
-                document.getElementById('signup-form').style.display = tabName === 'signup' ? 'block' : 'none';
-                document.getElementById('recover-form').style.display = tabName === 'recover' ? 'block' : 'none';
-            });
-        });
-
-        // Authentication functions
-        async function handleSignIn() {
-            const email = document.getElementById('signin-email').value.trim();
-            const password = document.getElementById('signin-password').value;
-
-            if (!email || !password) {
-                showNotification('Please fill all fields', 'danger');
-                return;
-            }
-
-            try {
-                showAuthLoading('Signing in...');
-                setButtonsEnabled(false);
-
-                const result = await callGoogleScript({
-                    action: 'signin',
-                    email: email,
-                    password: password
-                });
-
-                if (result.success) {
-                    currentUser = { id: result.userId, email: result.email };
-                    await loadUserData();
-                    showUserInterface();
-                    showNotification('Signed in successfully!', 'success');
-                } else {
-                    showNotification(result.error || 'Sign in failed', 'danger');
-                }
-                
-            } catch (error) {
-                console.error('Sign in error:', error);
-                showNotification('Connection error. Please try again.', 'danger');
-            } finally {
-                hideAuthLoading();
-                setButtonsEnabled(true);
-            }
-        }
-
-        async function handleSignUp() {
-            const email = document.getElementById('signup-email').value.trim();
-            const password = document.getElementById('signup-password').value;
-            const confirmPassword = document.getElementById('signup-confirm').value;
-            const securityQuestion = document.getElementById('security-question').value;
-            const securityAnswer = document.getElementById('security-answer').value.trim();
-
-            if (!email || !password || !confirmPassword || !securityQuestion || !securityAnswer) {
-                showNotification('Please fill all fields', 'danger');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showNotification('Passwords do not match', 'danger');
-                return;
-            }
-
-            if (password.length < 6) {
-                showNotification('Password must be at least 6 characters long', 'danger');
-                return;
-            }
-
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showNotification('Please enter a valid email address', 'danger');
-                return;
-            }
-
-            try {
-                showAuthLoading('Creating account...');
-                setButtonsEnabled(false);
-
-                const result = await callGoogleScript({
-                    action: 'signup',
-                    email: email,
-                    password: password,
-                    securityQuestion: securityQuestion,
-                    securityAnswer: securityAnswer
-                });
-
-                if (result.success) {
-                    currentUser = { id: result.userId, email: result.email };
-                    await loadUserData();
-                    showUserInterface();
-                    showNotification('Account created successfully!', 'success');
-                } else {
-                    showNotification(result.error || 'Account creation failed', 'danger');
-                }
-                
-            } catch (error) {
-                console.error('Sign up error:', error);
-                showNotification('Connection error. Please try again.', 'danger');
-            } finally {
-                hideAuthLoading();
-                setButtonsEnabled(true);
-            }
-        }
-
-        async function handleRecover() {
-            const email = document.getElementById('recover-email').value.trim();
-            const securityAnswer = document.getElementById('recover-answer').value.trim();
-
-            if (!email || !securityAnswer) {
-                showNotification('Please fill all fields', 'danger');
-                return;
-            }
-
-            try {
-                showAuthLoading('Recovering account...');
-                setButtonsEnabled(false);
-
-                const result = await callGoogleScript({
-                    action: 'recover',
-                    email: email,
-                    securityAnswer: securityAnswer
-                });
-
-                if (result.success) {
-                    document.getElementById('recovered-password').style.display = 'block';
-                    document.getElementById('recovered-password').innerHTML = `
-                        <strong>Password Recovery Successful!</strong><br>
-                        Your password is: <strong>${result.password}</strong><br>
-                        <small>Please save this password and use it to sign in.</small>
-                    `;
-                    showNotification('Password recovered successfully!', 'success');
-                } else {
-                    showNotification(result.error || 'Recovery failed. Please check your email and security answer.', 'danger');
-                }
-                
-            } catch (error) {
-                console.error('Recovery error:', error);
-                showNotification('Connection error. Please try again.', 'danger');
-            } finally {
-                hideAuthLoading();
-                setButtonsEnabled(true);
-            }
-        }
-
-        function handleSignOut() {
-            currentUser = null;
-            expenses = [];
-            categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Bills & Utilities', 'Healthcare', 'Education', 'Travel', 'Groceries', 'Personal Care'];
-            monthlyBudget = 10000;
-            showAuthInterface();
-            showNotification('Signed out successfully!', 'success');
-        }
-
-        function showUserInterface() {
-            document.getElementById('auth-section').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.getElementById('user-email').textContent = currentUser.email;
-            
-            populateCategories();
-            populateCategoryList();
-            updateDashboard();
-        }
-
-        function showAuthInterface() {
-            document.getElementById('auth-section').style.display = 'block';
-            document.getElementById('main-app').style.display = 'none';
-            
-            // Reset forms
-            setButtonsEnabled(true);
-            hideAuthLoading();
-            clearAuthForms();
-        }
-
-        function clearAuthForms() {
-            document.getElementById('signin-email').value = '';
-            document.getElementById('signin-password').value = '';
-            document.getElementById('signup-email').value = '';
-            document.getElementById('signup-password').value = '';
-            document.getElementById('signup-confirm').value = '';
-            document.getElementById('security-question').value = '';
-            document.getElementById('security-answer').value = '';
-            document.getElementById('recover-email').value = '';
-            document.getElementById('recover-answer').value = '';
-            document.getElementById('recovered-password').style.display = 'none';
-        }
-
-        // Load user data from Google Sheets
-        async function loadUserData() {
-            try {
-                // Load expenses
-                const expensesResult = await callGoogleScript({
-                    action: 'getExpenses',
-                    userId: currentUser.id
-                });
-
-                if (expensesResult.success) {
-                    expenses = expensesResult.expenses.map(exp => ({
-                        ...exp,
-                        date: new Date(exp.date)
-                    }));
-                }
-
-                // Load settings
-                const settingsResult = await callGoogleScript({
-                    action: 'getSettings',
-                    userId: currentUser.id
-                });
-
-                if (settingsResult.success) {
-                    if (settingsResult.categories) {
-                        categories = settingsResult.categories.split(',').filter(c => c.trim());
-                    }
-                    if (settingsResult.monthlyBudget) {
-                        monthlyBudget = parseFloat(settingsResult.monthlyBudget);
-                    }
-                }
-
-                console.log(`Loaded data from Google Sheets: ${expenses.length} expenses, ${categories.length} categories`);
-                
-            } catch (error) {
-                console.error('Error loading user data:', error);
-                showNotification('Error loading data from cloud', 'warning');
-            }
-        }
-
-        // Save user settings to Google Sheets
-        async function saveUserSettings() {
-            try {
-                await callGoogleScript({
-                    action: 'saveSettings',
-                    userId: currentUser.id,
-                    categories: categories.join(','),
-                    monthlyBudget: monthlyBudget
-                });
-            } catch (error) {
-                console.error('Error saving settings:', error);
-                throw error;
-            }
-        }
-
-        // Event listeners for auth
-        document.getElementById('signin-btn').addEventListener('click', handleSignIn);
-        document.getElementById('signup-btn').addEventListener('click', handleSignUp);
-        document.getElementById('recover-btn').addEventListener('click', handleRecover);
-        document.getElementById('signout-btn').addEventListener('click', handleSignOut);
-
-        // Enter key support for auth forms
-        document.getElementById('signin-password').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSignIn();
-        });
-        document.getElementById('signup-confirm').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSignUp();
-        });
-        document.getElementById('recover-answer').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleRecover();
-        });
-
-        // Navigation
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabName = tab.getAttribute('data-tab');
-                showTab(tabName, tab);
-            });
-        });
-
-        function showTab(tabName, clickedTab) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            clickedTab.classList.add('active');
-            
-            if (tabName === 'reports') {
-                setTimeout(() => {
-                    updateCategoryBreakdown();
-                }, 100);
-            }
-        }
-
-        // Expense form handling
-        document.getElementById('expense-form').addEventListener('submit', async (e) => {
+        
+        showRegisterBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            const amount = parseFloat(document.getElementById('amount').value);
-            const description = document.getElementById('description').value.trim();
-            const category = document.getElementById('category').value;
-            const date = document.getElementById('date').value;
-            const paymentMethod = document.getElementById('payment-method').value;
-            
-            if (!amount || !description || !category || !date || !paymentMethod) {
-                showNotification('Please fill all fields', 'danger');
-                return;
-            }
-
-            if (amount <= 0) {
-                showNotification('Amount must be greater than 0', 'danger');
-                return;
-            }
-
-            const addButton = document.getElementById('add-expense-btn');
-            addButton.disabled = true;
-            addButton.textContent = 'Saving...';
-
-            try {
-                const result = await callGoogleScript({
-                    action: 'addExpense',
-                    userId: currentUser.id,
-                    amount: amount,
-                    description: description,
-                    category: category,
-                    date: date,
-                    paymentMethod: paymentMethod
-                });
-
-                if (result.success) {
-                    // Add to local array
-                    expenses.unshift({
-                        amount: amount,
-                        description: description,
-                        category: category,
-                        date: new Date(date),
-                        paymentMethod: paymentMethod
-                    });
-                    
-                    // Reset form
-                    document.getElementById('expense-form').reset();
-                    document.getElementById('date').value = new Date().toISOString().split('T')[0];
-                    
-                    // Update UI
-                    updateDashboard();
-                    checkBudgetWarnings();
-                    
-                    showNotification('Expense saved to cloud successfully!', 'success');
-                } else {
-                    showNotification('Failed to save expense', 'danger');
-                }
-                
-            } catch (error) {
-                console.error('Error adding expense:', error);
-                showNotification('Error saving to cloud. Please try again.', 'danger');
-            } finally {
-                addButton.disabled = false;
-                addButton.textContent = 'Save to Google Sheets';
-            }
+            renderAuthView('register');
         });
 
-        // Category management
-        document.getElementById('add-category-btn').addEventListener('click', async () => {
-            const newCategoryName = document.getElementById('new-category').value.trim();
-            
-            if (!newCategoryName) {
-                showNotification('Please enter category name', 'danger');
-                return;
-            }
-
-            if (categories.includes(newCategoryName)) {
-                showNotification('Category already exists', 'danger');
-                return;
-            }
-
-            try {
-                categories.push(newCategoryName);
-                await saveUserSettings();
-                
-                document.getElementById('new-category').value = '';
-                populateCategories();
-                populateCategoryList();
-                
-                showNotification('Category saved to cloud!', 'success');
-                
-            } catch (error) {
-                console.error('Error adding category:', error);
-                showNotification('Error saving category to cloud', 'danger');
-                categories.pop(); // Remove from local array if save failed
-            }
-        });
-
-        // Budget management
-        document.getElementById('update-budget-btn').addEventListener('click', async () => {
-            const newBudget = parseFloat(document.getElementById('monthly-budget').value);
-            
-            if (!newBudget || newBudget <= 0) {
-                showNotification('Please enter valid budget amount', 'danger');
-                return;
-            }
-
-            try {
-                monthlyBudget = newBudget;
-                await saveUserSettings();
-                updateDashboard();
-                
-                showNotification('Budget saved to cloud!', 'success');
-                
-            } catch (error) {
-                console.error('Error updating budget:', error);
-                showNotification('Error saving budget to cloud', 'danger');
-            }
-        });
-
-        // Export functionality
-        document.getElementById('export-btn').addEventListener('click', () => {
-            if (expenses.length === 0) {
-                showNotification('No data to export', 'warning');
-                return;
-            }
-
-            const headers = ['Date', 'Amount', 'Description', 'Category', 'Payment Method'];
-            const csvContent = [
-                headers.join(','),
-                ...expenses.map(expense => [
-                    expense.date.toLocaleDateString(),
-                    expense.amount,
-                    `"${expense.description}"`,
-                    expense.category,
-                    expense.paymentMethod
-                ].join(','))
-            ].join('\n');
-
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `expenses_${currentUser.email}_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-            showNotification('Data exported successfully!', 'success');
-        });
-
-        // UI Population functions
-        function populateCategories() {
-            const categorySelect = document.getElementById('category');
-            categorySelect.innerHTML = '<option value="">Select Category</option>';
-            
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                categorySelect.appendChild(option);
-            });
-        }
-
-        function populateCategoryList() {
-            const categoryList = document.getElementById('category-list');
-            categoryList.innerHTML = '';
-            
-            categories.forEach(category => {
-                const categoryCard = document.createElement('div');
-                categoryCard.className = 'category-card';
-                categoryCard.innerHTML = `
-                    <div class="category-icon">📁</div>
-                    <div>${category}</div>
-                `;
-                categoryList.appendChild(categoryCard);
-            });
-        }
-
-        // Dashboard updates
-        function updateDashboard() {
-            const today = new Date();
-            const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-            const thisYear = new Date(today.getFullYear(), 0, 1);
-            
-            // Calculate totals
-            const todayTotal = expenses
-                .filter(exp => isSameDay(exp.date, today))
-                .reduce((sum, exp) => sum + exp.amount, 0);
-                
-            const monthlyTotal = expenses
-                .filter(exp => exp.date >= thisMonth)
-                .reduce((sum, exp) => sum + exp.amount, 0);
-                
-            const yearlyTotal = expenses
-                .filter(exp => exp.date >= thisYear)
-                .reduce((sum, exp) => sum + exp.amount, 0);
-
-            // Update UI
-            document.getElementById('today-total').textContent = `₹${todayTotal.toFixed(2)}`;
-            document.getElementById('monthly-total').textContent = `₹${monthlyTotal.toFixed(2)}`;
-            document.getElementById('yearly-total').textContent = `₹${yearlyTotal.toFixed(2)}`;
-            
-            // Calculate daily average
-            const daysThisMonth = today.getDate();
-            const avgDaily = monthlyTotal / daysThisMonth;
-            document.getElementById('avg-daily').textContent = `₹${avgDaily.toFixed(2)}`;
-            
-            // Update budget progress
-            const monthlyProgress = monthlyBudget > 0 ? (monthlyTotal / monthlyBudget) * 100 : 0;
-            const progressBar = document.getElementById('monthly-progress');
-            progressBar.style.width = `${Math.min(monthlyProgress, 100)}%`;
-            
-            progressBar.className = 'budget-fill';
-            if (monthlyProgress >= 90) {
-                progressBar.classList.add('budget-danger');
-            } else if (monthlyProgress >= 80) {
-                progressBar.classList.add('budget-warning');
-            }
-            
-            document.getElementById('monthly-budget-status').textContent = 
-                `Spent: ₹${monthlyTotal.toFixed(2)} / ₹${monthlyBudget} (${monthlyProgress.toFixed(1)}%)`;
-            
-            // Daily budget
-            const dailyBudget = monthlyBudget / 30;
-            const dailyProgress = dailyBudget > 0 ? (todayTotal / dailyBudget) * 100 : 0;
-            const dailyProgressBar = document.getElementById('daily-progress');
-            dailyProgressBar.style.width = `${Math.min(dailyProgress, 100)}%`;
-            
-            const remaining = dailyBudget - todayTotal;
-            document.getElementById('budget-status').textContent = 
-                remaining > 0 ? `Budget remaining: ₹${remaining.toFixed(2)}` : `Over budget by: ₹${Math.abs(remaining).toFixed(2)}`;
-            
-            // Recent expenses
-            displayRecentExpenses();
-            
-            // Set budget field
-            document.getElementById('monthly-budget').value = monthlyBudget;
-        }
-
-        function displayRecentExpenses() {
-            const recentContainer = document.getElementById('recent-expenses');
-            recentContainer.innerHTML = '';
-            
-            if (expenses.length === 0) {
-                recentContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No expenses yet. Add your first expense to get started!</p>';
-                return;
-            }
-            
-            const recent = expenses.slice(0, 10);
-            
-            recent.forEach(expense => {
-                const expenseDiv = document.createElement('div');
-                expenseDiv.className = 'expense-item';
-                expenseDiv.innerHTML = `
-                    <div class="expense-details">
-                        <div>
-                            <span class="expense-category">${expense.category}</span>
-                            <strong>${expense.description}</strong>
-                        </div>
-                        <div style="font-size: 14px; color: #666;">
-                            ${expense.date.toLocaleDateString()} • ${expense.paymentMethod}
-                        </div>
-                    </div>
-                    <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
-                `;
-                recentContainer.appendChild(expenseDiv);
-            });
-        }
-
-        // Category breakdown
-        function updateCategoryBreakdown() {
-            const breakdownContainer = document.getElementById('category-breakdown');
-            breakdownContainer.innerHTML = '<h3>Category Breakdown</h3>';
-            
-            if (expenses.length === 0) {
-                breakdownContainer.innerHTML += '<p style="text-align: center; color: #666; padding: 20px;">No expenses to show breakdown. Start adding expenses to see your spending patterns!</p>';
-                return;
-            }
-            
-            const categoryTotals = {};
-            expenses.forEach(expense => {
-                categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + expense.amount;
-            });
-            
-            const totalExpenses = Object.values(categoryTotals).reduce((sum, amount) => sum + amount, 0);
-            
-            Object.entries(categoryTotals)
-                .sort(([,a], [,b]) => b - a)
-                .forEach(([category, amount]) => {
-                    const percentage = totalExpenses > 0 ? ((amount / totalExpenses) * 100).toFixed(1) : 0;
-                    const categoryDiv = document.createElement('div');
-                    categoryDiv.className = 'expense-item';
-                    categoryDiv.innerHTML = `
-                        <div class="expense-details">
-                            <span class="expense-category">${category}</span>
-                            <div>${percentage}% of total expenses</div>
-                        </div>
-                        <div class="expense-amount">₹${amount.toFixed(2)}</div>
-                    `;
-                    breakdownContainer.appendChild(categoryDiv);
-                });
-        }
-
-        // Budget warnings
-        function checkBudgetWarnings() {
-            const today = new Date();
-            const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-            
-            const monthlyTotal = expenses
-                .filter(exp => exp.date >= thisMonth)
-                .reduce((sum, exp) => sum + exp.amount, 0);
-            
-            const monthlyProgress = monthlyBudget > 0 ? (monthlyTotal / monthlyBudget) * 100 : 0;
-            
-            if (monthlyProgress >= 100) {
-                showNotification('⚠️ Budget exceeded! You have spent ₹' + monthlyTotal.toFixed(2) + ' this month.', 'danger');
-            } else if (monthlyProgress >= 90) {
-                showNotification('⚠️ You have used 90% of your monthly budget!', 'warning');
-            } else if (monthlyProgress >= 80) {
-                showNotification('💡 You have used 80% of your monthly budget. Consider reducing expenses.', 'warning');
-            }
-        }
-
-        // Utility functions
-        function isSameDay(date1, date2) {
-            return date1.getFullYear() === date2.getFullYear() &&
-                   date1.getMonth() === date2.getMonth() &&
-                   date1.getDate() === date2.getDate();
-        }
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set today's date as default
-            document.getElementById('date').value = new Date().toISOString().split('T')[0];
-            
-            showAuthInterface();
-            updateCloudStatus(false);
-            showNotification('Welcome! Your expense tracker is ready to use.', 'success');
-            
-            console.log('🚀 Expense Tracker ready!');
+        showLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderAuthView('login');
         });
     </script>
 </body>
 </html>
-
-
-
-
